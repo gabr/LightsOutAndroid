@@ -6,25 +6,38 @@ import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements GridControler.OnFinishListener {
 
     private GridControler gridControler;
     private TextView movesCounter;
     private GridLayout grid;
+
+    private int moves;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        moves = 0;
         movesCounter = (TextView) findViewById(R.id.movesCounter);
-        grid = (GridLayout) findViewById(R.id.grid);
+        movesCounter.setText("Moves: " + moves);
 
-        gridControler = new GridControler(grid);
-        gridControler.Clear();
+        grid = (GridLayout) findViewById(R.id.grid);
+        gridControler = new GridControler(grid, this);
+        gridControler.clear();
+        gridControler.randomBoard();
     }
 
     public void onButtonClick(View view) {
-        gridControler.Move(view);
+        moves += 1;
+        movesCounter.setText("Moves: " + moves);
+
+        gridControler.move(view);
+    }
+
+    @Override
+    public void onFinish() {
+        movesCounter.setText("Finished in: " + moves);
     }
 }

@@ -61,7 +61,6 @@
         <Button android:layout_margin="5dp" android:layout_width="50dp" android:layout_height="50dp" android:onClick="onButtonClick"/>
         <Button android:layout_margin="5dp" android:layout_width="50dp" android:layout_height="50dp" android:onClick="onButtonClick"/>
 
-
     </GridLayout>
 
 </LinearLayout>

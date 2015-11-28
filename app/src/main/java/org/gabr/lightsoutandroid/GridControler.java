@@ -6,20 +6,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 
+import java.util.Random;
+
 public class GridControler {
 
+    public interface OnFinishListener {
+        void onFinish();
+    }
+
     private GridLayout grid;
+    private OnFinishListener onFinishListener;
+
     private int enabledColor;
     private int disabledColor;
 
-    public GridControler(GridLayout grid) {
+    public GridControler(GridLayout grid, OnFinishListener listener) {
         this.grid = grid;
+        this.onFinishListener = listener;
 
-        enabledColor = Color.CYAN;
-        disabledColor = Color.GREEN;
+        enabledColor = Color.rgb(0x3E, 0x65, 0xFF);
+        disabledColor = Color.GRAY;
     }
 
-    public void Move(View view) {
+    public void move(View view) {
         Button button = (Button) view;
 
         int size = grid.getColumnCount();
@@ -34,82 +43,82 @@ public class GridControler {
             }
         }
 
-        Move(r, c);
+        move(r, c);
     }
 
-    public void Move(int column, int row) {
+    public void move(int column, int row) {
         if (column < 0 || column > grid.getColumnCount() - 1 ||
                 row < 0 || row > grid.getRowCount() - 1)
             return;
 
-        SwitchState(column, row);
-        SwitchState(column - 1, row);
-        SwitchState(column + 1, row);
-        SwitchState(column, row - 1);
-        SwitchState(column, row + 1);
+        switchState(column, row);
+        switchState(column - 1, row);
+        switchState(column + 1, row);
+        switchState(column, row - 1);
+        switchState(column, row + 1);
 
         CheckIfFinished();
     }
 
-    public void Clear() {
-        EnableBloard(true);
+    public void clear() {
+        enableBloard(true);
 
         for (int c = 0; c < grid.getColumnCount(); c++)
             for (int r = 0; r < grid.getRowCount(); r++)
-                SetState(GetButton(c, r), false);
+                setState(getButton(c, r), false);
     }
 
-    public void RandomBoard() {
-//                Random rand = new Random(DateTime.Now.Millisecond);
-//
-//                int c = grid.ColumnDefinitions.Count;
-//                int r = grid.RowDefinitions.Count;
-//                int maximumMoves = c * r;
-//
-//                int moves = rand.Next(0, maximumMoves);
-//                for (int i = 0; i < moves; i++)
-//                    Move(rand.Next(0, c), rand.Next(0, r));
+    public void randomBoard() {
+                Random rand = new Random(System.currentTimeMillis());
+
+                int c = grid.getColumnCount();
+                int r = grid.getRowCount();
+                int maximumMoves = c * r;
+
+                int moves = rand.nextInt(maximumMoves);
+                for (int i = 0; i < moves; i++)
+                    move(rand.nextInt(c), rand.nextInt(r));
     }
 
     public void CheckIfFinished() {
-        boolean state = GetState(GetButton(0, 0));
+        boolean state = getState(getButton(0, 0));
 
         for (int c = 0; c < grid.getColumnCount(); c++)
             for (int r = 0; r < grid.getRowCount(); r++)
-                if (state != GetState(GetButton(c, r)))
+                if (state != getState(getButton(c, r)))
                     return;
 
-//                if (OnFinish != null)
-//                    OnFinish();
+        if (onFinishListener != null)
+            onFinishListener.onFinish();
 
-        EnableBloard(false);
+        enableBloard(false);
     }
 
-    private void SwitchState(int column, int row) {
+    private void switchState(int column, int row) {
         if (column < 0 || column > grid.getColumnCount() - 1 ||
                 row < 0 || row > grid.getRowCount() - 1)
             return;
 
-        Button button = GetButton(column, row);
-        SetState(button, !GetState(button));
+        Button button = getButton(column, row);
+        setState(button, !getState(button));
     }
 
-    private Button GetButton(int column, int row) {
+    private Button getButton(int column, int row) {
         int index = row + column * grid.getColumnCount();
         return (Button) grid.getChildAt(index);
     }
 
-    private boolean GetState(Button button) {
+    private boolean getState(Button button) {
         return ((ColorDrawable)button.getBackground()).getColor() == enabledColor;
     }
 
-    private void SetState(Button button, boolean state) {
+    private void setState(Button button, boolean state) {
         button.setBackgroundColor(state ? enabledColor : disabledColor);
     }
 
-    private void EnableBloard(boolean enable) {
+    private void enableBloard(boolean enable) {
         for (int c = 0; c < grid.getColumnCount(); c++)
             for (int r = 0; r < grid.getRowCount(); r++)
-                GetButton(c, r).setEnabled(enable);
+                getButton(c, r).setEnabled(enable);
     }
 }
