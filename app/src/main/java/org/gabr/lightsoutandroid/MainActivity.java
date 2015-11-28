@@ -40,4 +40,12 @@ public class MainActivity extends Activity implements GridControler.OnFinishList
     public void onFinish() {
         movesCounter.setText("Finished in: " + moves);
     }
+
+    public void onReloadButtonClick(View view) {
+        moves = 0;
+        movesCounter.setText("Moves: " + moves);
+
+        gridControler.clear();
+        gridControler.randomBoard();
+    }
 }

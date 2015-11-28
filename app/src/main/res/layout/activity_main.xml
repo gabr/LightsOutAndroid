@@ -9,22 +9,39 @@
                 android:orientation="vertical"
                 tools:context=".MainActivity">
 
-    <TextView
-        android:text="@string/instruction"
-        android:textColor="@color/abc_primary_text_disable_only_material_dark"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"/>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/movesCounter"
-        android:textColor="@color/abc_primary_text_disable_only_material_dark"
-        android:layout_marginTop="10dp"
-        android:textSize="28sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/instruction"
+            android:textColor="@color/abc_primary_text_disable_only_material_dark"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"/>
+
+        <TextView
+            android:id="@+id/movesCounter"
+            android:text="TEST"
+            android:textColor="@color/abc_primary_text_disable_only_material_dark"
+            android:layout_marginTop="60dp"
+            android:textSize="28sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:onClick="onReloadButtonClick"
+            android:src="@android:drawable/ic_popup_sync"
+            android:background="@drawable/reload_selector"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
 
     <GridLayout
         android:id="@+id/grid"
