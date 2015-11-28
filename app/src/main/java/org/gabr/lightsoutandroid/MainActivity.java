@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+    private GridControler gridControler;
     private TextView movesCounter;
     private GridLayout grid;
 
@@ -18,8 +19,12 @@ public class MainActivity extends Activity {
 
         movesCounter = (TextView) findViewById(R.id.movesCounter);
         grid = (GridLayout) findViewById(R.id.grid);
+
+        gridControler = new GridControler(grid);
+        gridControler.Clear();
     }
 
     public void onButtonClick(View view) {
+        gridControler.Move(view);
     }
 }
